@@ -28,10 +28,7 @@ public class Phone {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Enumerated(EnumType.STRING)
-	@NotBlank
 	private PhoneType type;
 	
-	@NotBlank
 	private String number;
 }

@@ -1,26 +1,25 @@
 package com.dio.personapi.dto;
 
-import java.time.LocalDateTime;
-import java.util.Set;
-
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
-import com.dio.personapi.entities.Person;
-import com.dio.personapi.entities.Phone;
 import com.dio.personapi.enums.PhoneType;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 public class PhoneDTO {
 	
 	private Long id;
+	
+	@Enumerated(EnumType.STRING)
 	private PhoneType type;
+	
+	@NotBlank
+	@Size(min=13, max=14)
 	private String number;
 }

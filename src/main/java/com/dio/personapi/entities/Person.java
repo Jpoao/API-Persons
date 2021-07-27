@@ -32,13 +32,10 @@ public class Person {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank
 	private String firstName;
 	
-	@NotBlank
 	private String lastName;
 	
-	@CPF
 	@Column(unique = true)
 	private String cpf;
 	

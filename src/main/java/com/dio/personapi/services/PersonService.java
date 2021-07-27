@@ -1,6 +1,7 @@
 package com.dio.personapi.services;
 
-import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,13 @@ public class PersonService {
 	public PersonDTO newPerson(PersonDTO person) {
 				
 		Person entity = repository.save(Person.builder()
-				.birthDate(person.getBirthDate())
+				.birthDate(LocalDate.parse(person.getBirthDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay())
 				.cpf(person.getCpf())
 				.firstName(person.getFirstName())
 				.lastName(person.getLastName())
 				.phones(person.getPhones())
 				.build());
-	
+				
 		return mapper.map(entity, PersonDTO.class);
 		
 	}
