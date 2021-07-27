@@ -28,6 +28,7 @@ public class PersonService {
 				.cpf(person.getCpf())
 				.firstName(person.getFirstName())
 				.lastName(person.getLastName())
+				.phones(person.getPhones())
 				.build());
 	
 		return mapper.map(entity, PersonDTO.class);
