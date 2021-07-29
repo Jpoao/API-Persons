@@ -10,6 +10,7 @@ import javax.persistence.EntityNotFoundException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,10 +53,16 @@ public class PersonService {
 		Optional<Person> entity = repository.findById(id);
 		Person person = entity.orElseThrow(() -> new EntityNotFoundException("Id " + id + " not found"));
 		return mapper.map(person, PersonDTO.class);
-//		}catch () {
-//			
-//		}
+
 	}
 	
-	
+	@Transactional
+	public void delete(Long id) {
+		
+		try {
+			repository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("id " + id + "not found");
+		}
+	}
 }
