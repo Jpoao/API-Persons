@@ -2,6 +2,8 @@ package com.dio.personapi.services;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,12 @@ public class PersonService {
 				
 		return mapper.map(entity, PersonDTO.class);
 		
+	}
+	
+	@Transactional(readOnly = true)
+	public List<PersonDTO> listAll(){
+		List<Person> person = repository.findAll();
+		return person.stream().map(x -> mapper.map(x, PersonDTO.class)).collect(Collectors.toList());
 	}
 	
 	

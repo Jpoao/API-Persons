@@ -1,12 +1,13 @@
 package com.dio.personapi.controllers;
 
 import java.net.URI;
+import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,13 @@ public class PersonController {
 				.toUri();
 		return ResponseEntity.created(uri).body(entity);
 		
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<PersonDTO>> listAll(){
+		
+		List<PersonDTO> entities = service.listAll();
+		return ResponseEntity.ok().body(entities);
 	}
 
 }
