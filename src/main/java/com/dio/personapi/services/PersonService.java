@@ -65,4 +65,22 @@ public class PersonService {
 			throw new EntityNotFoundException("id " + id + "not found");
 		}
 	}
+
+	@Transactional
+	public PersonDTO update(Long id, PersonDTO updated) {
+
+		try {
+			Person person = repository.getById(id);
+			person.setBirthDate(LocalDate.parse(updated.getBirthDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay());
+			person.setCpf(updated.getCpf());
+			person.setFirstName(updated.getFirstName());
+			person.setLastName(updated.getLastName());
+			person.setPhones(updated.getPhones());
+			person = repository.save(person);
+			return mapper.map(person, PersonDTO.class);
+		}catch (EntityNotFoundException e) {
+			throw new EntityNotFoundException("id " + id + " not found");
+		}
+		
+	}
 }
