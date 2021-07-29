@@ -3,7 +3,10 @@ package com.dio.personapi.services;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,16 @@ public class PersonService {
 	public List<PersonDTO> listAll(){
 		List<Person> person = repository.findAll();
 		return person.stream().map(x -> mapper.map(x, PersonDTO.class)).collect(Collectors.toList());
+	}
+
+	@Transactional(readOnly = true)
+	public PersonDTO findById(Long id) {
+		Optional<Person> entity = repository.findById(id);
+		Person person = entity.orElseThrow(() -> new EntityNotFoundException("Id " + id + " not found"));
+		return mapper.map(person, PersonDTO.class);
+//		}catch () {
+//			
+//		}
 	}
 	
 	
