@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.dio.personapi.dto.PersonDTO;
+import com.dio.personapi.dto.PhoneDTO;
 import com.dio.personapi.services.PersonService;
+import com.dio.personapi.services.PhoneService;
 
 @RestController
 @RequestMapping("/persons")

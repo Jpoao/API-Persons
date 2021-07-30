@@ -23,27 +23,25 @@ public class PersonService {
 
 	@Autowired
 	private PersonRepository repository;
-	
+
 	@Autowired
 	private ModelMapper mapper;
-	
+
 	@Transactional
 	public PersonDTO newPerson(PersonDTO person) {
-				
+
 		Person entity = repository.save(Person.builder()
-				.birthDate(LocalDate.parse(person.getBirthDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay())
-				.cpf(person.getCpf())
-				.firstName(person.getFirstName())
-				.lastName(person.getLastName())
-				.phones(person.getPhones())
-				.build());
-				
+				.birthDate(LocalDate.parse(person.getBirthDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+						.atStartOfDay())
+				.cpf(person.getCpf()).firstName(person.getFirstName()).lastName(person.getLastName())
+				.phones(person.getPhones()).build());
+
 		return mapper.map(entity, PersonDTO.class);
-		
+
 	}
-	
+
 	@Transactional(readOnly = true)
-	public List<PersonDTO> listAll(){
+	public List<PersonDTO> listAll() {
 		List<Person> person = repository.findAll();
 		return person.stream().map(x -> mapper.map(x, PersonDTO.class)).collect(Collectors.toList());
 	}
@@ -55,10 +53,10 @@ public class PersonService {
 		return mapper.map(person, PersonDTO.class);
 
 	}
-	
+
 	@Transactional
 	public void delete(Long id) {
-		
+
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
@@ -71,16 +69,21 @@ public class PersonService {
 
 		try {
 			Person person = repository.getById(id);
-			person.setBirthDate(LocalDate.parse(updated.getBirthDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay());
+			person.setBirthDate(
+					LocalDate.parse(updated.getBirthDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay());
 			person.setCpf(updated.getCpf());
 			person.setFirstName(updated.getFirstName());
-			person.setLastName(updated.getLastName());
-			person.setPhones(updated.getPhones());
+			person.setLastName(updated.getLastName());;
+			
+			if(!(  updated.getPhones()==null || updated.getPhones().isEmpty()))
+				person.setPhones(updated.getPhones());
+			
 			person = repository.save(person);
 			return mapper.map(person, PersonDTO.class);
-		}catch (EntityNotFoundException e) {
+			
+		} catch (EntityNotFoundException e) {
 			throw new EntityNotFoundException("id " + id + " not found");
 		}
-		
+
 	}
 }

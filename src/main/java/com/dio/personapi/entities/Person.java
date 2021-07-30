@@ -41,6 +41,6 @@ public class Person {
 	
 	private LocalDateTime birthDate;
 	
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REMOVE})
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
 	private Set<Phone> phones;
 }
